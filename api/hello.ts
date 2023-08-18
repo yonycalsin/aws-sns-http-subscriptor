@@ -3,5 +3,13 @@ export default async function handler(
   request,
   response,
 ) {
-  return response.status(200).json({ message: "Hello World" });
+  const body = request?.body
+
+  if(body?.SubscribeURL) {
+    await fetch(body.SubscribeURL)
+
+    return response.status(200).send("Subscription confirmed.")
+  }
+
+  return response.status(200).send("Hello World");
 }
