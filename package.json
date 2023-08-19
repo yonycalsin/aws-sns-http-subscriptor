@@ -1,0 +1,10 @@
+{
+  "name": "@yonycalsin/aws-sns-http-subscriptor",
+  "version": "1.0.0",
+  "keywords": [],
+  "author": "Yony Calsin",
+  "license": "ISC",
+  "dependencies": {
+    "@vercel/node": "^2.15.10"
+  }
+}
