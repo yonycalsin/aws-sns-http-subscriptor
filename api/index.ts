@@ -5,15 +5,26 @@ export default async function handler(request: VercelRequest, response: VercelRe
 
   // This logic is to confirm the subscription when using aws-sns
   if (process.env.CONFIRM_SUBSCRIPTION_CATCHER) {
+
+    const confirmSubscriptionCatcherEndpoint = new URL(process.env.CONFIRM_SUBSCRIPTION_CATCHER)
+
+    confirmSubscriptionCatcherEndpoint.searchParams.set("_originalUrl", request.url as string)
+
+    const confirmSubscriptionCatcherOptions: RequestInit = {
+      method: request.method,
+      body: request.body,
+      headers: request.headers as Record<string, any>
+    }
+
     try {
-      await fetch(`${process.env.CONFIRM_SUBSCRIPTION_CATCHER}?originalUrl=${request.url}`, {
-        method: request.method,
-        headers: request.headers as Record<string, any>,
-        body: request.body,
-      })
+      await fetch(confirmSubscriptionCatcherEndpoint, confirmSubscriptionCatcherOptions)
 
     } catch (error) {
       console.error(error)
+
+      return response.status(400).json({
+        message: `The confirmation was not successfully: ${error}`,
+      })
     }
   }
 
