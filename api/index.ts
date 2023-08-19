@@ -10,10 +10,12 @@ export default async function handler(request: VercelRequest, response: VercelRe
 
     confirmSubscriptionCatcherEndpoint.searchParams.set("_originalUrl", request.url as string)
 
+    const { host, ...newHeaders } = { ...request.headers }
+
     const confirmSubscriptionCatcherOptions: RequestInit = {
       method: request.method,
       body: request.body,
-      headers: request.headers as Record<string, any>
+      headers: newHeaders as Record<string, any>
     }
 
     try {
